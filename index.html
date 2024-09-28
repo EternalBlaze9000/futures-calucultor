@@ -1,0 +1,275 @@
+<html>
+    <head>
+        <title> Profit Using Leverage Calculator</title>
+        <style>
+            body{
+                color: antiquewhite;
+                background: linear-gradient(130deg, rgb(34, 42, 50), rgb(57, 151, 165),rgb(22, 114, 128), rgb(57, 151, 165), rgb(34, 42, 50));
+            }
+            .align_together{
+                display:inline-block;
+                text-align: center;
+                margin-left: 3%;
+                margin-top: 5px;
+            }
+            #QUANTITY{
+                /* display:inline-block; */
+
+                width: 600px;
+                height: 600px;
+                padding-top:30px;
+                border-radius: 6px;
+                background: linear-gradient(150deg,rgba(255, 255, 255, 0.153) ,rgba(62, 62, 62, 0.912),rgba(255, 255, 255, 0.153));
+                text-align: center;
+                margin-right: 20px;
+                margin-bottom: 20px;
+                /* float:left; */
+                box-shadow: 0 0 10px rgb(164, 162, 162);
+
+            }
+            #radio_section{
+                text-align: left;
+                padding-left:25%;
+                padding-top:10px;
+                padding-bottom:10px;
+                .radio{ /* increase size of checkbox*/
+                width: 20px;
+                height: 20px;
+                margin-top:5px;
+                cursor: pointer;
+            }
+            }
+            x,y{
+                position: absolute;
+                margin-top:6px;
+            }
+
+            .input_display{
+                /* border: SOLID; */
+                text-align: left;
+                padding-left:15%;
+                padding-top:10px;
+                padding-bottom:10px;
+
+            }
+            .input{
+                    border: none;
+                    padding-left: 15px;
+                    width: 300px;
+                    border-radius: 10px;
+                    height: 25px;
+                    
+
+                }
+
+            button {
+                background: linear-gradient(45deg, rgb(0, 116, 249), rgb(0, 217, 255));
+                border: none;
+                border-radius: 5px;
+                color: rgb(252, 226, 192);
+                padding: 10px 20px;
+                margin: 10px;
+                cursor: pointer;
+                font-size: larger;
+                /* font-family:'algerian'; */
+                transition: background 0.3s, transform 0.3s;
+            }
+            button:hover {
+                background: linear-gradient(45deg,rgb(0, 215, 253),rgb(0, 116, 249));
+                transform: scale(1.1);
+            }
+
+        </style>
+    </head>
+    <body>
+        <center style="color: rgb(234, 206, 173); font-size: 25px">𝕱UTURES 𝕮ALCULATOR</center>
+    <center><div class="align_together">
+        <div id="QUANTITY"><center style="font-size: 22px; color: rgb(111, 207, 248)">𝕮ONTRACTS, 𝕻ROFIT 𝔞𝔫𝔡 𝕷OSS</center><br>
+            Select your Crypto:<br>
+            <div id="radio_section">
+                
+            <input type="radio" class ="radio" id="bitcoin" name="rbtn"><x>BITCOIN (1 cont = 0.001 BTC)</x><br>
+            <input type="radio" class ="radio" id="etherium" name="rbtn"><y>ETHERIUM (1 cont = 0.01 ETH)</y><br>
+            </div>
+
+        <div class="input_display">MARGIN AMOUNT:
+                <input id="margin_amount" class="input" type="number" placeholder="how much amount you will pay"><BR><br>
+                    Select your position-
+                    <div id="radio_section">
+                        <input id="long" type="radio" class ="radio" id="radio1" name="rbtn1"><x>LONG</x><br>
+                        <input id="short" type="radio" class ="radio" id="radio2" name="rbtn1"><y>SHORT</y><br>
+                    </div>
+                        Enter Leverage :
+                        <input id="leverage" class="input" type="number"> X
+                        <br><br>
+                        Enter ENTRY  :
+                        <input id="entry" class="input" type="number">
+                        <br><br>
+                        Enter TARGET:
+                        <input id="target" class="input" type="number">
+                        <br><br>
+                        Enter STOPLOSS :
+                        <input id="stoploss" class="input" type="number">
+                        <br><br>            </div>
+
+            <button class="calculate" id="calculate_quantity">𝕮𝖆𝖑𝖈𝖚𝖑𝖆𝖙𝖊</button>
+
+            <div id="display_contract"> YOU CAN BUY: 0 CONTRACTS
+                <br>
+                YOUR PROFIT AMOUNT IS: 0.00/-
+                <br>
+                YOUR LOSS AMOUNT IS: 0.00/-
+            </div>
+        </div>
+    </center>
+
+    <script>
+        //-- quantity calculator
+        //-- intial inputs from user
+        let bitcoin=document.getElementById("bitcoin");
+        let etherium=document.getElementById("etherium");
+        let margin_amount= document.getElementById("margin_amount");
+        let long=document.getElementById("long");
+        let short=document.getElementById("short");
+        let leverage= document.getElementById("leverage");
+        let entry= document.getElementById("entry");
+        let target =document.getElementById("target");
+        let stoploss= document.getElementById("stoploss");
+        //-- initial input from user ends here
+
+        //--calculate button
+        let calculate_quantity = document.getElementById("calculate_quantity");
+
+        //-- display data to user
+        let display_contract=document.getElementById("display_contract");
+
+        calculate_quantity.onclick=function(){
+            if(bitcoin.checked && long.checked && leverage.value>0 && entry.value>0 && target.value>0 && stoploss.value>0){
+
+                console.log("bitcoin is checked");
+                console.log(`margin_amount.value is ${margin_amount.value}`);
+                console.log("long is checked");
+                console.log(`leverage is ${leverage.value}`);
+                console.log(`entry is ${entry.value}`);
+                console.log(`target is ${target.value}`);
+                console.log(`stoploss is ${stoploss.value}`);
+
+                let total_amount=margin_amount.value*leverage.value;
+                console.log(`total_amount after leverage is ${total_amount}`);
+
+                let total_btc=total_amount/entry.value;
+                console.log(`bticoin you own is ${total_btc}`);
+
+                let total_contracts=Math.floor(total_btc/0.001);
+                console.log(`contracts you own is ${total_contracts}`);
+
+                let profit=(target.value-entry.value)*0.001;
+                let total_profit= profit*total_contracts;
+                console.log(`profit is ${total_profit}`);
+
+                let loss=(entry.value-stoploss.value)*0.001;
+                let total_loss= loss*total_contracts;
+                console.log(`loss is ${total_loss}`);
+
+                display_contract.textContent=`CONTRACT YOU OWN ${total_contracts}... \n
+                PROFIT is ${total_profit}... \n
+                LOSS is ${total_loss}`;
+
+            }else if(bitcoin.checked && short.checked && leverage.value>0 && entry.value>0 && target.value>0 && stoploss.value>0){
+                    console.log("bitcoin is checked");
+                    console.log("short is checked");
+                    console.log(`leverage is ${leverage.value}`);
+                    console.log(`entry is ${entry.value}`);
+                    console.log(`target is ${target.value}`);
+                    console.log(`stoploss is ${stoploss.value}`);
+
+                    let total_amount=margin_amount.value*leverage.value;
+                    console.log(`total_amount after leverage is ${total_amount}`);
+
+                    let total_btc=total_amount/entry.value;
+                    console.log(`bticoin you own is ${total_btc}`);
+
+                    let total_contracts=Math.floor(total_btc/0.001);
+                    console.log(`contracts you own is ${total_contracts}`);
+
+                    let profit=(entry.value-target.value)*0.001;
+                    let total_profit= profit*total_contracts;
+                    console.log(`profit is ${total_profit}`);
+
+                    let loss=(stoploss.value-entry.value)*0.001;
+                    let total_loss= loss*total_contracts;
+                    console.log(`loss is ${total_loss}`);
+
+                    display_contract.textContent=`CONTRACT YOU OWN ${total_contracts}... \n
+                PROFIT is ${total_profit}... \n
+                LOSS is ${total_loss}`;
+
+                }
+            else if(etherium.checked && long.checked && leverage.value>0 && entry.value>0 && target.value>0 && stoploss.value>0){
+
+                console.log("etherium is checked");
+                console.log(`margin_amount.value is ${margin_amount.value}`);
+                console.log("long is checked");
+                console.log(`leverage is ${leverage.value}`);
+                console.log(`entry is ${entry.value}`);
+                console.log(`target is ${target.value}`);
+                console.log(`stoploss is ${stoploss.value}`);
+
+                let total_amount=margin_amount.value*leverage.value;
+                console.log(`total_amount after leverage is ${total_amount}`);
+
+                let total_btc=total_amount/entry.value;
+                console.log(`etherium you own is ${total_btc}`);
+
+                let total_contracts=Math.floor(total_btc/0.01);
+                console.log(`contracts you own is ${total_contracts}`);
+
+                let profit=(target.value-entry.value)*0.01;
+                let total_profit= profit*total_contracts;
+                console.log(`profit is ${total_profit}`);
+
+                let loss=(entry.value-stoploss.value)*0.01;
+                let total_loss= loss*total_contracts;
+                console.log(`loss is ${total_loss}`);
+
+                display_contract.textContent=`CONTRACT YOU OWN ${total_contracts}... \n
+                PROFIT is ${total_profit}... \n
+                LOSS is ${total_loss}`;
+
+            }else if(etherium.checked && short.checked && leverage.value>0 && entry.value>0 && target.value>0 && stoploss.value>0){
+                    console.log("etherium is checked");
+                    console.log("short is checked");
+                    console.log(`leverage is ${leverage.value}`);
+                    console.log(`entry is ${entry.value}`);
+                    console.log(`target is ${target.value}`);
+                    console.log(`stoploss is ${stoploss.value}`);
+
+                    let total_amount=margin_amount.value*leverage.value;
+                    console.log(`total_amount after leverage is ${total_amount}`);
+
+                    let total_btc=total_amount/entry.value;
+                    console.log(`etherium you own is ${total_btc}`);
+
+                    let total_contracts=Math.floor(total_btc/0.01);
+                    console.log(`contracts you own is ${total_contracts}`);
+
+                    let profit=(entry.value-target.value)*0.01;
+                    let total_profit= profit*total_contracts;
+                    console.log(`profit is ${total_profit}`);
+
+                    let loss=(stoploss.value-entry.value)*0.01;
+                    let total_loss= loss*total_contracts;
+                    console.log(`loss is ${total_loss}`);
+
+                    display_contract.textContent=`CONTRACT YOU OWN ${total_contracts}... \n
+                PROFIT is ${total_profit}... \n
+                LOSS is ${total_loss}`;
+
+            }else{
+                display_contract.textContent=`INPUT FIELD IS EMPTY`;
+                console.log("INPUT FIELD IS EMPTY");
+            }
+        }
+        </script>
+    </body>
+</html>
